@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'src/app.dart';
-import 'src/settings/settings_controller.dart';
-import 'src/settings/settings_service.dart';
+import'dart:convert';
 import 'package:survey_kit/survey_kit.dart';
 
 void main() {
@@ -55,6 +53,8 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
+  final List<String> results;
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -99,7 +99,6 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               const Text('pill id'),
               const SizedBox(height: 10),
-              
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -109,13 +108,22 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: const Icon(Icons.camera_alt),
                 label: const Text('Take picture'),
               ),
-              
               const SizedBox(height: 10),
-
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const Placeholder();
+                    return SurveyKit(
+                      onResult: (SurveyResult result) {
+                        final jsonResult = result.toJson();
+                        jsonDecode(jsonResult);
+                      },
+                      task: manualSurvey(),
+                      showProgress: true,
+                      localizations: const {
+                        'cancel': 'Cancel',
+                        'next': 'Next',
+                      },
+                    );
                   }));
                 },
                 icon: const Icon(Icons.add),
@@ -125,57 +133,102 @@ class _MyHomePageState extends State<MyHomePage> {
           ), // This trailing comma makes auto-formatting nicer for build methods.
         ));
   }
+
+
+   //Data: medication name, dosage, time of day and frequency, important info
+
+    Task manualSurvey() {
+
+      var task = NavigableTask(
+        id: TaskIdentifier(),
+        steps: [
+      QuestionStep(
+        title: 'Medication Survey',
+        text: 'What is the name of the medication you are taking?',
+        answerFormat: const TextAnswerFormat(maxLines: 1),
+      ),
+
+      QuestionStep(
+        title: 'Medication Survey',
+        text: 'What is the dosage of this medication?',
+        answerFormat: const TextAnswerFormat(maxLines: 1),
+      ),
+
+      QuestionStep(
+          title: 'Medication Survey',
+          text: 'When do you take [][][][]',
+          answerFormat: const MultipleChoiceAnswerFormat(textChoices: [
+            TextChoice(text: 'Morning', value: 'Morning'),
+            TextChoice(text: 'Midday', value: 'Midday'),
+            TextChoice(text: 'Evening', value: 'Evening'),
+            TextChoice(text: 'Bedtime', value: 'Bedtime'),
+            TextChoice(text: 'Other', value: 'Other'),
+          ])),
+
+      
+
+      QuestionStep(
+        title: 'Medication Survey',
+        text: 'How much of this medication do you take in the ',
+        answerFormat: const TextAnswerFormat(maxLines: 1),
+      ),
+
+      QuestionStep(
+        title: 'Medication Survey',
+        text: 'Any other important information you\'d like to add?',
+        answerFormat: const BooleanAnswerFormat(positiveAnswer: 'Yes', negativeAnswer: 'No'),
+      ),
+
+      QuestionStep(
+        title: 'Medication Survey',
+        text: 'Please list any important directions below:',
+        answerFormat: const TextAnswerFormat(),
+      ),
+
+
+      CompletionStep(
+        stepIdentifier: StepIdentifier(id: 'what'),
+        title: 'Thank you!',
+        text: 'Your information has been saved',
+        buttonText: 'Upload to Google Calendar',
+      ),
+        ]
+    );
+    
+    task.addNavigationRule(
+      forTriggerStepIdentifier: task.steps[4].stepIdentifier,
+      navigationRule: ConditionalNavigationRule(
+        resultToStepIdentifierMapper: (input) {
+          switch (input) {
+            case 'Yes':
+              return task.steps[5].stepIdentifier;
+            case 'No':
+              return task.steps[6].stepIdentifier;
+            default:
+              return null;
+          }
+        }
+     )
+    );
+
+   /*  task.addNavigationRule(
+       forTriggerStepIdentifier: task.steps[2].stepIdentifier,
+       navigationRule: 
+    )
+    */ 
+    return task;
+    
+    }
+
+
+    String jsonDecode(Map<String, dynamic> theJson) {
+      Map<String, dynamic> data = json.decode(theJson);
+
+      print(data);
+
+      return data;
+    }
 }
 
-class Survey extends StatefulWidget {
 
-  const Survey({super.key});
 
-  @override
-  State<StatefulWidget> createState() => _Survey();
-}
-
-class _Survey extends State<Survey> {
-
-  @override
-  Widget build(BuildContext context) {
-    //Data: medication name, dosage, time of day and frequency, important info
-
-    QuestionStep(
-      title: 'Medication Survey',
-      text: 'What is the name of the medication you are taking?',
-      answerFormat: const TextAnswerFormat(maxLines: 1),
-    );
-
-    QuestionStep(
-      title: 'Medication Survey',
-      text: 'What is the dosage of [][][][][]',
-      answerFormat: const TextAnswerFormat(maxLines: 1),
-    );
-
-    QuestionStep(
-      title: 'Medication Survey',
-      text: 'When do you take [][][][]',
-      answerFormat: const MultipleChoiceAnswerFormat(textChoices: [
-        TextChoice(text:  'Morning',
-                    value: 'Morning'), 
-        TextChoice(text:  'Midday',
-                    value: 'Midday'),
-        TextChoice(text:  'Evening',
-                    value: 'Evening'), 
-        TextChoice(text:  'Bedtime',
-                    value: 'Bedtime'),
-        TextChoice(text:  'Other',
-                    value: 'Other'),])
-    );
-
-    //If other is selected, add another question about when
-
-    QuestionStep(
-      title: 'Medication Survey',
-      text: 'Any other important information you\'d like to add?',
-      answerFormat: const TextAnswerFormat(),
-    );
-  }
-
-}
