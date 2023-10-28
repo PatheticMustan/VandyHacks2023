@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'src/app.dart';
 import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
-
-import 'package:flutter/material.dart';
 import 'package:survey_kit/survey_kit.dart';
 
 void main() {
@@ -105,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Placeholder();
+                    return const Placeholder();
                   }));
                 },
                 icon: const Icon(Icons.camera_alt),
@@ -117,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Placeholder();
+                    return const Placeholder();
                   }));
                 },
                 icon: const Icon(Icons.add),
@@ -129,4 +127,55 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+class Survey extends StatefulWidget {
 
+  const Survey({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _Survey();
+}
+
+class _Survey extends State<Survey> {
+
+  @override
+  Widget build(BuildContext context) {
+    //Data: medication name, dosage, time of day and frequency, important info
+
+    QuestionStep(
+      title: 'Medication Survey',
+      text: 'What is the name of the medication you are taking?',
+      answerFormat: const TextAnswerFormat(maxLines: 1),
+    );
+
+    QuestionStep(
+      title: 'Medication Survey',
+      text: 'What is the dosage of [][][][][]',
+      answerFormat: const TextAnswerFormat(maxLines: 1),
+    );
+
+    QuestionStep(
+      title: 'Medication Survey',
+      text: 'When do you take [][][][]',
+      answerFormat: const MultipleChoiceAnswerFormat(textChoices: [
+        TextChoice(text:  'Morning',
+                    value: 'Morning'), 
+        TextChoice(text:  'Midday',
+                    value: 'Midday'),
+        TextChoice(text:  'Evening',
+                    value: 'Evening'), 
+        TextChoice(text:  'Bedtime',
+                    value: 'Bedtime'),
+        TextChoice(text:  'Other',
+                    value: 'Other'),])
+    );
+
+    //If other is selected, add another question about when
+
+    QuestionStep(
+      title: 'Medication Survey',
+      text: 'Any other important information you\'d like to add?',
+      answerFormat: const TextAnswerFormat(),
+    );
+  }
+
+}
