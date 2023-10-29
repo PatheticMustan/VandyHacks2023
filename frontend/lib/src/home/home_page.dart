@@ -4,7 +4,7 @@ import 'questionaire.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  var deets = PrescriptionDetails('drugs', '1.1', ['Morning', 'Bedtime'], 'oh help me');
+  var presList = [PrescriptionCard(details: PrescriptionDetails('help', 'this', ['Morning'], 'doesnt work'))];
 
   
  Future<void> _navigateAndDisplaySelection(BuildContext context) async {
@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
     final result = await Navigator.push(
       context,
       // Create the SelectionScreen in the next step.
-      MaterialPageRoute(builder: (context) => const Questionaire()),);}
+      MaterialPageRoute(builder: (context) =>  Questionaire()),);}
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,11 @@ class HomePage extends StatelessWidget {
       body: Center(
 
       child: Column(
-      children: [PrescriptionCard(details: deets),
-      PrescriptionCard(details: deets)]
+      children: [
+        for (PrescriptionCard p in presList)
+          p,
+
+      ],
     )),
     floatingActionButton: FloatingActionButton(
         onPressed: () { _navigateAndDisplaySelection(context);},
@@ -63,7 +66,7 @@ class PrescriptionCard extends StatelessWidget {
     final result = await Navigator.push(
       context,
       // Create the SelectionScreen in the next step.
-      MaterialPageRoute(builder: (context) => const Questionaire()),);}
+      MaterialPageRoute(builder: (context) => Questionaire()),);}
 
 
   @override
