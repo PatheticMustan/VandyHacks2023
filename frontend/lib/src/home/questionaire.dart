@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rx_scan/src/home/app_state.dart';
 import 'package:survey_kit/survey_kit.dart';
 import 'package:rx_scan/main.dart';
 
@@ -86,6 +88,8 @@ class _QuestionaireState extends State<Questionaire> {
 
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -100,11 +104,24 @@ class _QuestionaireState extends State<Questionaire> {
                   final task = snapshot.data!;
                   return SurveyKit(
                     onResult: (SurveyResult result) {
-                      final jsonResult = result.toJson();
+                      String name;
+                      String dose;
+                      List<String> time;
+                      String info;
 
-                      var usableResults = extractResults(jsonResult);
+                      name = result.results[0].results[0].result;
+                      dose = result.results[1].results[0].result;
+                      info = result.results[3].results[0].result;
 
-                      Navigator.of(context).pushNamed('/', arguments: usableResults);
+                      List<Dynamic> t = (result.results[2].results[0].result
+                          .map((v) => v.value)
+                          .toList());
+                      time = List<String>.from(t);
+
+                      print("$name, $dose, $time, $info");
+
+                      appState.add(PrescriptionDetails(name, dose, time, info));
+                      Navigator.of(context).popUntil((route) => route.isFirst);
                     },
                     task: task,
                     showProgress: true,
@@ -120,4 +137,11 @@ class _QuestionaireState extends State<Questionaire> {
       ),
     );
   }
+}
+
+void printLongString(String text) {
+  final RegExp pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
+  pattern
+      .allMatches(text)
+      .forEach((RegExpMatch match) => print(match.group(0)));
 }

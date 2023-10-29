@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rx_scan/src/home/app_state.dart';
 import 'medicine_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                appState.add();
+                appState.add(const PrescriptionDetails("a", "b", ["c"], "d"));
               },
               tooltip: 'New',
               child: const Icon(Icons.add),

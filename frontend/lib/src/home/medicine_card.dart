@@ -1,31 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rx_scan/src/home/app_state.dart';
 import 'package:rx_scan/src/home/questionaire.dart';
-
-class MyAppState extends ChangeNotifier {
-  var presList = [];
-
-  void add() {
-    presList.add(PrescriptionCard(
-        details: const PrescriptionDetails('MEDICATION_NAME', 'MEDICATION_DOSE',
-            ['Morning', 'Afternoon'], 'ADDITIONAL_INFO')));
-    notifyListeners();
-  }
-
-  void remove() {
-    presList.remove(presList.last);
-    notifyListeners();
-  }
-}
-
-class PrescriptionDetails {
-  final String name;
-  final String dose;
-  final List<String> time;
-  final String info;
-
-  const PrescriptionDetails(this.name, this.dose, this.time, this.info);
-}
 
 class PrescriptionCard extends StatelessWidget {
   PrescriptionCard({super.key, required this.details});

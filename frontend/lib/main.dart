@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rx_scan/src/home/medicine_card.dart';
+import 'package:rx_scan/src/home/app_state.dart';
 import 'src/home/home_page.dart';
 import 'src/scan/scan_page.dart';
 import 'src/settings/settings_page.dart';
