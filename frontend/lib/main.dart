@@ -72,7 +72,7 @@ class _BottomNavState extends State<BottomNav> {
   ];
 
   final List _pages = [
-    const HomePage(),
+     HomePage(),
     const ScanPage(),
     const SettingsPage(),
   ];
