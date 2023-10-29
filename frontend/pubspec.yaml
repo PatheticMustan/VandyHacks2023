@@ -1,4 +1,4 @@
-name: RxScan
+name: rx_scan
 description: A prescription scanner that syncs to google calendar
 
 # Prevent accidental publishing to pub.dev.
