@@ -8,7 +8,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 
 class ScanPage extends StatefulWidget {
@@ -118,13 +117,13 @@ class _ScanPageState extends State<ScanPage> {
     if (response.statusCode == 200) {
       final List parsed = json.decode(response.body);
       // [dose_times, name, dosage, info]
-      List<bool> dose_times = List<bool>.from(parsed[0] as List);
+      List<bool> doseTimes = List<bool>.from(parsed[0] as List);
       String name = parsed[1];
       String dosage = parsed[2];
       String info = parsed[3];
 
       // pretty print results
-      print(dose_times);
+      print(doseTimes);
       print("'$name' - $dosage ($info)");
     } else {
       print("error when processing prescription, ${response.statusCode}");

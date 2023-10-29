@@ -2,8 +2,6 @@ import 'dart:js_util';
 
 import 'package:flutter/material.dart';
 import 'questionaire.dart';
-import 'package:rx_scan/main.dart';
-import 'package:rx_scan/globals.dart' as globals;
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +15,9 @@ class MyAppState extends ChangeNotifier {
   var presList = [];
 
   void add() {
-    presList.add(PrescriptionCard(details:  PrescriptionDetails('MEDICATION_NAME', 'MEDICATION_DOSE', ['Morning', 'Afternoon'], 'ADDITIONAL_INFO')));
+    presList.add(PrescriptionCard(
+        details: const PrescriptionDetails('MEDICATION_NAME', 'MEDICATION_DOSE',
+            ['Morning', 'Afternoon'], 'ADDITIONAL_INFO')));
     notifyListeners();
   }
 
@@ -27,12 +27,7 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
-
 class _HomePageState extends State<HomePage> {
-
-
-  
-
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -84,13 +79,10 @@ class PrescriptionCard extends StatelessWidget {
 
     return Builder(builder: (context) {
       return Card(
-        // Set the shape of the card using a rounded rectangle border with a 8 pixel radius
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        // Set the clip behavior of the card
         clipBehavior: Clip.antiAliasWithSaveLayer,
-        // Define the child widgets of the card
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -159,5 +151,3 @@ class PrescriptionCard extends StatelessWidget {
     });
   }
 }
-
-

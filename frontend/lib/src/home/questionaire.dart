@@ -12,8 +12,6 @@ class Questionaire extends StatefulWidget {
 }
 
 class _QuestionaireState extends State<Questionaire> {
-  
-  
   Future<Task> _getTask() {
     var nameStep = QuestionStep(
       stepIdentifier: StepIdentifier(),
