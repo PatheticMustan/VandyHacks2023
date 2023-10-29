@@ -1,12 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:auth0_flutter/auth0_flutter.dart';
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  Credentials? _credentials;
+
+  late Auth0 auth0;
+
+  @override
+  void initState() {
+    super.initState();
+    auth0 = Auth0('dev-cbb8kj1p6znfxp8m.us.auth0.com',
+        'HcB8v5Iw4E65ootKqtXdASqIO7B7mb3x');
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('settings page'),
-    );
+    if (_credentials == null) {
+      return Center(
+          child: ElevatedButton(
+              onPressed: () async {
+                final credentials = await auth0.webAuthentication().login();
+                print(credentials);
+
+                setState(() {
+                  _credentials = credentials;
+                });
+              },
+              child: const Text("Log in")));
+    }
+    return const SizedBox.shrink();
   }
 }

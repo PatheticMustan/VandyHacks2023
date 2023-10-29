@@ -118,13 +118,14 @@ class _ScanPageState extends State<ScanPage> {
     if (response.statusCode == 200) {
       final List parsed = json.decode(response.body);
       // [dose_times, name, dosage, info]
-      List<bool> dose_times = List<bool>.from(parsed[0] as List);
+      List<String> dose_times = List<String>.from(parsed[0] as List);
       String name = parsed[1];
       String dosage = parsed[2];
       String info = parsed[3];
 
       // pretty print results
-      print("\'$name\' - $dosage ($info)");
+      print(dose_times);
+      print("'$name' - $dosage ($info)");
     } else {
       print("error when processing prescription, ${response.statusCode}");
     }

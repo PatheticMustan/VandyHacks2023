@@ -1,4 +1,4 @@
-# flutter_application_1
+# com.goober.rxscan
 
 A new Flutter project.
 
