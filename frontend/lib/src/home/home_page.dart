@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 import 'questionaire.dart';
 import 'package:rx_scan/main.dart';
@@ -16,6 +18,11 @@ class MyAppState extends ChangeNotifier {
 
   void add() {
     presList.add(PrescriptionCard(details:  PrescriptionDetails('MEDICATION_NAME', 'MEDICATION_DOSE', ['Morning', 'Afternoon'], 'ADDITIONAL_INFO')));
+    notifyListeners();
+  }
+
+  void remove() {
+    presList.remove(presList.last);
     notifyListeners();
   }
 }
@@ -73,6 +80,7 @@ class PrescriptionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    var appState = context.watch<MyAppState>();
 
     return Builder(builder: (context) {
       return Card(
@@ -86,13 +94,7 @@ class PrescriptionCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // Display an image at the top of the card that fills the width of the card and has a height of 160 pixels
-            /* Image.asset(
-            ImgSample.get('relaxing-man.png'),
-            height: 160,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ), */
+       
             // Add a container with padding that contains the card's title, text, and buttons
             Container(
               padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
@@ -141,7 +143,7 @@ class PrescriptionCard extends StatelessWidget {
                         ),
                         label: const Text(''),
                         onPressed: () {
-                          //deleteCard
+                          appState.remove();
                         },
                       ),
                     ],
