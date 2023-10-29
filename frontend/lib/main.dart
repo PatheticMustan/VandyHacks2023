@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'src/home/home_page.dart';
+import 'src/scan/scan_page.dart';
+import 'src/settings/settings_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -69,15 +72,9 @@ class _BottomNavState extends State<BottomNav> {
   ];
 
   final List _pages = [
-    const Center(
-      child: Text('home page'),
-    ),
-    const Center(
-      child: Text('scan page'),
-    ),
-    const Center(
-      child: Text('settings page'),
-    ),
+    const HomePage(),
+    const ScanPage(),
+    const SettingsPage(),
   ];
 
   _changeTab(int index) {
