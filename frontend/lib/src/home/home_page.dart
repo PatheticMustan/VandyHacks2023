@@ -109,6 +109,20 @@ class PrescriptionCard extends StatelessWidget {
                       color: Colors.grey[800],
                     ),
                   ),
+                  
+                
+                  // Add a space between the title and the text
+                  Container(height: 10),
+                  // Display the card's text using a font size of 15 and a light grey color
+                  
+                  Text(
+                    'Take in ' + details.time.toString(),
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+               
                   // Add a space between the title and the text
                   Container(height: 10),
                   // Display the card's text using a font size of 15 and a light grey color
