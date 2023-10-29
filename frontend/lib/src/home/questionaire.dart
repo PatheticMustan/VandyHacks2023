@@ -103,8 +103,8 @@ class _QuestionaireState extends State<Questionaire> {
                       final jsonResult = result.toJson();
 
                       var usableResults = extractResults(jsonResult);
-                      print(usableResults);
-                      Navigator.of(context).popUntil((route) => route.isFirst);
+
+                      Navigator.of(context).pushNamed('/', arguments: usableResults);
                     },
                     task: task,
                     showProgress: true,
