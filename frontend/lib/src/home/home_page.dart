@@ -13,13 +13,20 @@ class HomePage extends StatefulWidget {
 State<HomePage> createState() => _HomePageState(); }
 
 
+class ListChanges extends ChangeNotifier {
+  var presList = [];
 
+  void addCard(theList) {
+    presList.add(PrescriptionCard(details:theList));
+    notifyListeners();
+  }
+}
 
 
 class _HomePageState extends State<HomePage> {
 var presList = [];
 
-Future<String> _navigateAndDisplaySelection(BuildContext context) async {
+Future<PrescriptionDetails> _navigateAndDisplaySelection(BuildContext context) async {
   // Navigator.push returns a Future that completes after calling
   // Navigator.pop on the Selection Screen.
   final result = await Navigator.push(
@@ -33,7 +40,12 @@ Future<String> _navigateAndDisplaySelection(BuildContext context) async {
 
   // After the Selection Screen returns a result, hide any previous snackbars
   // and show the new result.
-  return '$result';
+  List<String> timeList = [];
+  for (int i = result.length - 1; i > 1; i--) {
+    timeList.add(result[i]);
+  }
+
+  return result;
 }
 
 
@@ -55,7 +67,9 @@ Future<String> _navigateAndDisplaySelection(BuildContext context) async {
         )),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
-               
+              var results = _navigateAndDisplaySelection(context);
+
+               Provider.of<ListChanges>(context, listen: true).addCard(results.toString());
             },
             tooltip: 'New',
             child: const Icon(Icons.add),
