@@ -6,6 +6,15 @@ class HomePage extends StatelessWidget {
 
   var deets = PrescriptionDetails('drugs', '1.1', ['Morning', 'Bedtime'], 'oh help me');
 
+  
+ Future<void> _navigateAndDisplaySelection(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final result = await Navigator.push(
+      context,
+      // Create the SelectionScreen in the next step.
+      MaterialPageRoute(builder: (context) => const Questionaire()),);}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +25,7 @@ class HomePage extends StatelessWidget {
       PrescriptionCard(details: deets)]
     )),
     floatingActionButton: FloatingActionButton(
-        onPressed: Placeholder();
+        onPressed: () { _navigateAndDisplaySelection(context);},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
@@ -111,7 +120,7 @@ class PrescriptionCard extends StatelessWidget {
                 const Spacer(),
                 // Add a text button labeled "SHARE" with transparent foreground color and an accent color for the text
                 TextButton.icon(
-                  icon: Icon(Icons.create_outlined),
+                  icon: const Icon(Icons.create_outlined),
                   label: const Text(''),
                   onPressed: () {
                     _navigateAndDisplaySelection(context);
