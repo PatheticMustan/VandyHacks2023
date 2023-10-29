@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'package:survey_kit/survey_kit.dart';
@@ -14,7 +17,7 @@ class Questionaire extends StatefulWidget {
 class _QuestionaireState extends State<Questionaire> {
   Future<Task> _getTask() {
     var nameStep = QuestionStep(
-      stepIdentifier: StepIdentifier(),
+        stepIdentifier: StepIdentifier(),
         title: 'Medication',
         answerFormat:
             const TextAnswerFormat(hint: 'Enter the name of your medication'));
@@ -61,33 +64,30 @@ class _QuestionaireState extends State<Questionaire> {
   }
 
   List<dynamic> extractResults(Map<String, dynamic> data) {
-  List<dynamic> results = [];
+    List<dynamic> results = [];
 
- 
-  data.forEach((key, value) {
-    if (key == "result") {
-      if (value is List) {
-        // Handle multiple options for "result"
-        results.addAll(value.map((v) => v['value']));
-      } else {
-        results.add(value);
-      }
-    } else if (value is Map<String, dynamic>) {
-      results.addAll(extractResults(value));
-    } else if (value is List) {
-      for (var item in value) {
-        if (item is Map<String, dynamic>) {
-          results.addAll(extractResults(item));
+    data.forEach((key, value) {
+      //print("$key - $value");
+      if (key == "result") {
+        if (value is List) {
+          // Handle multiple options for "result"
+          results.addAll(value.map((v) => v['value']));
+        } else {
+          results.add(value);
+        }
+      } else if (value is Map<String, dynamic>) {
+        results.addAll(extractResults(value));
+      } else if (value is List) {
+        for (var item in value) {
+          if (item is Map<String, dynamic>) {
+            results.addAll(extractResults(item));
+          }
         }
       }
-    }
-  });
+    });
 
-return results;
-}
-
- 
-
+    return results;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,12 +105,11 @@ return results;
                   final task = snapshot.data!;
                   return SurveyKit(
                     onResult: (SurveyResult result) {
-                      var jsonResult = result.toJson();
+                      final jsonResult = result.toJson();
+                      debugPrint(jsonEncode(jsonResult));
 
                       var usableResults = extractResults(jsonResult);
                       print(usableResults);
-
-                      
                     },
                     task: task,
                     showProgress: true,

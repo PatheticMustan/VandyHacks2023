@@ -1,5 +1,3 @@
-import 'dart:js_util';
-
 import 'package:flutter/material.dart';
 import 'questionaire.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +75,7 @@ class PrescriptionCard extends StatelessWidget {
     final theme = Theme.of(context);
     var appState = context.watch<MyAppState>();
 
-    return Builder(builder: (context) {
+    return SafeArea(child: Builder(builder: (context) {
       return Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
@@ -86,7 +84,6 @@ class PrescriptionCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-       
             // Add a container with padding that contains the card's title, text, and buttons
             Container(
               padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
@@ -148,6 +145,6 @@ class PrescriptionCard extends StatelessWidget {
           ],
         ),
       );
-    });
+    }));
   }
 }
