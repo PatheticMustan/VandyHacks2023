@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'home_page.dart';
 import 'package:survey_kit/survey_kit.dart';
 
 class Questionaire extends StatefulWidget {
@@ -55,6 +55,53 @@ class _QuestionaireState extends State<Questionaire> {
     return Future.value(task);
   }
 
+  List<dynamic> extractResults(Map<String, dynamic> data) {
+  List<dynamic> results = [];
+
+ 
+  data.forEach((key, value) {
+    if (key == "result") {
+      if (value is List) {
+        // Handle multiple options for "result"
+        results.addAll(value.map((v) => v['value']));
+      } else {
+        results.add(value);
+      }
+    } else if (value is Map<String, dynamic>) {
+      results.addAll(extractResults(value));
+    } else if (value is List) {
+      for (var item in value) {
+        if (item is Map<String, dynamic>) {
+          results.addAll(extractResults(item));
+        }
+      }
+    }
+  });
+
+  List<dynamic> formattedResults = [];
+
+  for (var i = 0; i < 3; i++) {
+    formattedResults.add(results[i]);
+  }
+
+  List<String> timeList = [];
+  for (var j = 3; j < results.length - 1; j++) {
+    if (results[j] == 'Other') {
+      timeList = [];
+      break;
+    } else {
+      timeList.add(results[j]);
+    }
+  }
+
+  formattedResults.add(timeList);
+  formattedResults.add(results[results.length - 1]);
+
+  return formattedResults;
+}
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +118,14 @@ class _QuestionaireState extends State<Questionaire> {
                   final task = snapshot.data!;
                   return SurveyKit(
                     onResult: (SurveyResult result) {
-                      print(result.toString());
+                      var jsonResult = result.toJson();
+                      print(jsonResult);
+
+                      var theStuff = extractResults(jsonResult);
+                      print(theStuff);
+
+                      
+
                       Navigator.pushNamed(context, '/');
                     },
                     task: task,

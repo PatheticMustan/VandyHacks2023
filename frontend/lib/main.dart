@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'src/home/home_page.dart';
 import 'src/scan/scan_page.dart';
 import 'src/settings/settings_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  
+  runApp(
+     const MyApp(),
+      );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,16 +16,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+   
+      return MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      );
+    
   }
 }
+
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -72,7 +80,7 @@ class _BottomNavState extends State<BottomNav> {
   ];
 
   final List _pages = [
-    HomePage(),
+    const HomePage(),
     const ScanPage(),
     const SettingsPage(),
   ];
