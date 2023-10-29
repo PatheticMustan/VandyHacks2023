@@ -17,7 +17,7 @@ class ListChanges extends ChangeNotifier {
   var presList = [];
 
   void addCard(theList) {
-    presList.add(PrescriptionCard(details:theList));
+    presList.add(PrescriptionCard(details: theList));
     notifyListeners();
   }
 }
@@ -26,7 +26,7 @@ class ListChanges extends ChangeNotifier {
 class _HomePageState extends State<HomePage> {
 var presList = [];
 
-Future<PrescriptionDetails> _navigateAndDisplaySelection(BuildContext context) async {
+ _navigateAndDisplaySelection(BuildContext context) async {
   // Navigator.push returns a Future that completes after calling
   // Navigator.pop on the Selection Screen.
   final result = await Navigator.push(
@@ -36,10 +36,11 @@ Future<PrescriptionDetails> _navigateAndDisplaySelection(BuildContext context) a
 
   // When a BuildContext is used from a StatefulWidget, the mounted property
   // must be checked after an asynchronous gap.
-  //if (!mounted) return;
+  if (!mounted) {
+    print('fail');
+    return null;}
 
-  // After the Selection Screen returns a result, hide any previous snackbars
-  // and show the new result.
+  //Format the list inside the list
   List<String> timeList = [];
   for (int i = result.length - 1; i > 1; i--) {
     timeList.add(result[i]);
