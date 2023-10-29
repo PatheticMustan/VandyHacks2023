@@ -47,7 +47,7 @@ class MenuItem {
 class NavBarNotifier extends ChangeNotifier {
   int _index = 0;
   int get index => _index;
-  final bool _hideBottomNavBar = false;
+
 
   set index(int x) {
     _index = x;
