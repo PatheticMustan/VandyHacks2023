@@ -19,14 +19,15 @@ def process_prescription(image): #returns [[True if need dose during that part],
     imDoseText = im.crop((.29*width, .19*height, width, .48*height))
     imImportantInfo = im.crop((.29*width, .48*height, width, height))
 
-    name = tess.image_to_string(imName)
-    dosage = tess.image_to_string(imDoseText)
-    info = tess.image_to_string(imImportantInfo)
+    name = tess.image_to_string(imName).replace('\n', ' ').strip()
+    dosage = tess.image_to_string(imDoseText).replace('\n', ' ').strip()
+    info = tess.image_to_string(imImportantInfo).replace('\n', ' ').strip()
+
 
     if("SEE" in tess.image_to_string(imDoseChartComplete)):
         return ([False, False, False, False], name, dosage, info)
     else:
         dose_times = [tess.image_to_string(imDoseChart1), tess.image_to_string(imDoseChart2), tess.image_to_string(imDoseChart3), tess.image_to_string(imDoseChart4)]
-        dose_times = [True if len(dose_time) != 0 else False for dose_time in dose_times]
+        dose_times = [False if len(dose_time)<=1 else True for dose_time in dose_times]
         return (dose_times, name, dosage, info)
 
