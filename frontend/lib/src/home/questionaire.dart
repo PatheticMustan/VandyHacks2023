@@ -113,12 +113,10 @@ class _QuestionaireState extends State<Questionaire> {
                       dose = result.results[1].results[0].result;
                       info = result.results[3].results[0].result;
 
-                      List<Dynamic> t = (result.results[2].results[0].result
+                      var t = (result.results[2].results[0].result
                           .map((v) => v.value)
                           .toList());
                       time = List<String>.from(t);
-
-                      print("$name, $dose, $time, $info");
 
                       appState.add(PrescriptionDetails(name, dose, time, info));
                       Navigator.of(context).popUntil((route) => route.isFirst);

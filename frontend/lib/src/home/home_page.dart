@@ -32,7 +32,10 @@ class _HomePageState extends State<HomePage> {
             body: ListView(
               padding: const EdgeInsets.all(8),
               children: [
-                for (PrescriptionCard p in appState.presList) p,
+                for (PrescriptionDetails p in appState.presList)
+                  PrescriptionCard(
+                    details: p,
+                  ),
               ],
             )));
   }

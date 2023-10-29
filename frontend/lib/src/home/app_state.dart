@@ -1,19 +1,16 @@
 import 'package:flutter/widgets.dart';
 
-import 'medicine_card.dart';
-
 class MyAppState extends ChangeNotifier {
-  var presList = [];
+  List<PrescriptionDetails> presList = [];
 
   void add(PrescriptionDetails details) {
-    presList.add(PrescriptionCard(
-        details: PrescriptionDetails(
-            details.name, details.dose, details.time, details.info)));
+    presList.add(PrescriptionDetails(
+        details.name, details.dose, details.time, details.info));
     notifyListeners();
   }
 
-  void remove() {
-    presList.remove(presList.last);
+  void remove(PrescriptionDetails details) {
+    presList.remove(details);
     notifyListeners();
   }
 }
