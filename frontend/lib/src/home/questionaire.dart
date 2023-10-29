@@ -122,7 +122,7 @@ return results;
                     },
                   );
                 }
-                return const CircularProgressIndicator.adaptive();
+                return MyHomePage(title: 'Demo Page');
               })),
         ),
       ),
