@@ -118,7 +118,7 @@ class _ScanPageState extends State<ScanPage> {
     if (response.statusCode == 200) {
       final List parsed = json.decode(response.body);
       // [dose_times, name, dosage, info]
-      List<String> dose_times = List<String>.from(parsed[0] as List);
+      List<int> dose_times = List<int>.from(parsed[0] as List);
       String name = parsed[1];
       String dosage = parsed[2];
       String info = parsed[3];

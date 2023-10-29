@@ -26,15 +26,25 @@ class _SettingsPageState extends State<SettingsPage> {
       return Center(
           child: ElevatedButton(
               onPressed: () async {
-                final credentials = await auth0.webAuthentication().login();
-                print(credentials);
+                final credentials =
+                    await auth0.webAuthentication(scheme: "demo").login();
 
                 setState(() {
                   _credentials = credentials;
                 });
               },
               child: const Text("Log in")));
+    } else {
+      return Center(
+          child: ElevatedButton(
+              onPressed: () async {
+                await auth0.webAuthentication().logout();
+
+                setState(() {
+                  _credentials = null;
+                });
+              },
+              child: const Text("Log out")));
     }
-    return const SizedBox.shrink();
   }
 }
