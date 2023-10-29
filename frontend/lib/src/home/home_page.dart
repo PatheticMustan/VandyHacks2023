@@ -105,7 +105,7 @@ class PrescriptionCard extends StatelessWidget {
                   // Display the card's text using a font size of 15 and a light grey color
                   
                   Text(
-                    'Take in ' + details.time.toString(),
+                    'Take in ${details.time}',
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.grey[700],

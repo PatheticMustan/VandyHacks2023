@@ -1,10 +1,5 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'home_page.dart';
 import 'package:survey_kit/survey_kit.dart';
-import 'package:provider/provider.dart';
 import 'package:rx_scan/main.dart';
 
 class Questionaire extends StatefulWidget {
@@ -52,13 +47,13 @@ class _QuestionaireState extends State<Questionaire> {
     var conclusionStep = CompletionStep(
       stepIdentifier: StepIdentifier(),
       title: 'All done!',
-      text: 'Your prescription is ready to be uploaded',
-      buttonText: 'Send to Google Calendar',
+      text: 'Your prescription is ready to be updated',
+      buttonText: 'Complete Entry',
     );
 
     var steps = [nameStep, doseStep, timeStep, infoStep, conclusionStep];
 
-    var task = NavigableTask(id: TaskIdentifier(), steps: steps);
+    var task = OrderedTask(id: TaskIdentifier(), steps: steps);
 
     return Future.value(task);
   }
@@ -106,10 +101,10 @@ class _QuestionaireState extends State<Questionaire> {
                   return SurveyKit(
                     onResult: (SurveyResult result) {
                       final jsonResult = result.toJson();
-                      debugPrint(jsonEncode(jsonResult));
 
                       var usableResults = extractResults(jsonResult);
                       print(usableResults);
+                      Navigator.of(context).popUntil((route) => route.isFirst);
                     },
                     task: task,
                     showProgress: true,
