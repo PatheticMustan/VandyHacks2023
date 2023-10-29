@@ -9,6 +9,20 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: GoogleButton());
+  }
+}
+
+class GoogleButton extends StatefulWidget {
+  const GoogleButton({Key? key}) : super(key: key);
+
+  @override
+  State<GoogleButton> createState() => _GoogleButtonState();
+}
+
+class _GoogleButtonState extends State<GoogleButton> {
   Credentials? _credentials;
 
   late Auth0 auth0;
@@ -38,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
       return Center(
           child: ElevatedButton(
               onPressed: () async {
-                await auth0.webAuthentication().logout();
+                await auth0.webAuthentication(scheme: "demo").logout();
 
                 setState(() {
                   _credentials = null;
