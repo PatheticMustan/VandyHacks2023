@@ -3,12 +3,6 @@ import pytesseract as tess
 from PIL import Image
 import PIL
 
-image1 = "backend/Prescriptions/1c.jpg"
-image3 = "backend/Prescriptions/3c.jpg"
-image4 = "backend/Prescriptions/4c.png"
-
-
-
 def process_prescription(image): #returns [[True if need dose during that part], drug name, dosage, info]
     im = Image.open(image)
 
@@ -36,5 +30,3 @@ def process_prescription(image): #returns [[True if need dose during that part],
         dose_times = [True if len(dose_time) != 0 else False for dose_time in dose_times]
         return (dose_times, name, dosage, info)
 
-
-print(process_prescription(image4))
