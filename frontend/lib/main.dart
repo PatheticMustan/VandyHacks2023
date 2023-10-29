@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import'dart:convert';
 import 'package:survey_kit/survey_kit.dart';
+//import 'package:flutter_camera_practice/preview_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,7 +54,7 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
-  final List<String> results;
+  //final List<String> results;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -113,16 +114,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return SurveyKit(
-                      onResult: (SurveyResult result) {
-                        final jsonResult = result.toJson();
-                        jsonDecode(jsonResult);
-                      },
-                      task: manualSurvey(),
+                       task: manualSurvey(),
                       showProgress: true,
                       localizations: const {
                         'cancel': 'Cancel',
                         'next': 'Next',
                       },
+                      
+                      onResult: (SurveyResult result) {
+                      
+                        final jsonResult = result.toJson();
+                        print(jsonResult);
+
+
+                    },
+                     
                     );
                   }));
                 },
@@ -133,6 +139,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ), // This trailing comma makes auto-formatting nicer for build methods.
         ));
   }
+
+
 
 
    //Data: medication name, dosage, time of day and frequency, important info
@@ -221,14 +229,23 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
 
-    String jsonDecode(Map<String, dynamic> theJson) {
-      Map<String, dynamic> data = json.decode(theJson);
+}
 
-      print(data);
+/* 
+class CameraPage extends StatefulWidget {
+  final List<CameraDescription>? cameras;
+   const CameraPage({Key? key, required this.cameras});
 
-      return data;
-    }
+  @override
+   State<CameraPage> createState() => _CameraPageState();
+}
+
+
+class _CameraPageState extends State<CameraPage> {
+
+
 }
 
 
 
+ */

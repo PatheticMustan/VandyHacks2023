@@ -15,7 +15,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   survey_kit: ^0.1.1
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
