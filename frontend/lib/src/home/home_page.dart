@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rx_scan/src/home/app_state.dart';
 import 'medicine_card.dart';
+import 'questionaire.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,7 +25,8 @@ class _HomePageState extends State<HomePage> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                appState.add(const PrescriptionDetails("a", "b", ["c"], "d"));
+                Navigator.push(context,
+      MaterialPageRoute(builder: (context) => const Questionaire()));
               },
               tooltip: 'New',
               child: const Icon(Icons.add),
