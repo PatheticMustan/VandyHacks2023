@@ -132,47 +132,40 @@ class _ScanPageState extends State<ScanPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  getImageFromCamera(context);
-                },
-                child: const Text('Scan'),
-              ),
+    return SafeArea(
+        child: Scaffold(
+            appBar: AppBar(
+              title:
+                  const Text('Scanner', style: TextStyle(color: Colors.white)),
+              backgroundColor: Colors.blueAccent,
             ),
-            const SizedBox(height: 20),
-            Center(
-              child: ElevatedButton(
-                onPressed: getImageFromGallery,
-                child: const Text('Upload'),
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text('Cropped image path:'),
-            Padding(
-              padding: const EdgeInsets.only(top: 0, left: 0, right: 0),
-              child: Text(
-                _imagePath.toString(),
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 14),
-              ),
-            ),
-            Visibility(
-              visible: (_imagePath != null),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.file(File(_imagePath ?? '')),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+            body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                      child: ElevatedButton(
+                          onPressed: () {
+                            getImageFromCamera(context);
+                          },
+                          child: const Text('Scan'))),
+                  const SizedBox(height: 20),
+                  Center(
+                      child: ElevatedButton(
+                          onPressed: getImageFromGallery,
+                          child: const Text('Upload'))),
+                  const SizedBox(height: 20),
+                  const Text('Cropped image path:'),
+                  Padding(
+                      padding: const EdgeInsets.only(top: 0, left: 0, right: 0),
+                      child: Text(_imagePath.toString(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 14))),
+                  Visibility(
+                      visible: (_imagePath != null),
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.file(File(_imagePath ?? ''))))
+                ])));
   }
 }

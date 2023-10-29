@@ -11,12 +11,17 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-      child: Padding(
-        padding: EdgeInsets.all(30),
-        child: GoogleButton(),
-      ),
-    );
+    return SafeArea(
+        child: Scaffold(
+            appBar: AppBar(
+              title:
+                  const Text('Settings', style: TextStyle(color: Colors.white)),
+              backgroundColor: Colors.blueAccent,
+            ),
+            body: const Padding(
+              padding: EdgeInsets.all(30),
+              child: GoogleButton(),
+            )));
   }
 }
 

@@ -16,6 +16,11 @@ class _HomePageState extends State<HomePage> {
 
     return SafeArea(
         child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Medicine View',
+                  style: TextStyle(color: Colors.white)),
+              backgroundColor: Colors.blueAccent,
+            ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 appState.add();
