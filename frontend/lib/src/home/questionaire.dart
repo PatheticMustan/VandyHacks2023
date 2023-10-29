@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'package:survey_kit/survey_kit.dart';
+import 'package:provider/provider.dart';
+import 'package:rx_scan/main.dart';
 
 class Questionaire extends StatefulWidget {
   const Questionaire({super.key});
@@ -13,17 +15,20 @@ class _QuestionaireState extends State<Questionaire> {
   
   Future<Task> _getTask() {
     var nameStep = QuestionStep(
+      stepIdentifier: StepIdentifier(),
         title: 'Medication',
         answerFormat:
             const TextAnswerFormat(hint: 'Enter the name of your medication'));
 
     var doseStep = QuestionStep(
+      stepIdentifier: StepIdentifier(),
       title: 'Dosage',
       answerFormat:
           const TextAnswerFormat(hint: 'Enter the dosage of your medication'),
     );
 
     var timeStep = QuestionStep(
+      stepIdentifier: StepIdentifier(),
       title: 'Time',
       text: 'Select the time of day when you take this medication',
       answerFormat: const MultipleChoiceAnswerFormat(textChoices: <TextChoice>[
@@ -36,6 +41,7 @@ class _QuestionaireState extends State<Questionaire> {
     );
 
     var infoStep = QuestionStep(
+      stepIdentifier: StepIdentifier(),
       title: 'Additional Information',
       answerFormat: const TextAnswerFormat(
           hint: 'Enter any additional information or dosage instructions'),
@@ -78,26 +84,7 @@ class _QuestionaireState extends State<Questionaire> {
     }
   });
 
-  List<dynamic> formattedResults = [];
-
-  for (var i = 0; i < 3; i++) {
-    formattedResults.add(results[i]);
-  }
-
-  List<String> timeList = [];
-  for (var j = 3; j < results.length - 1; j++) {
-    if (results[j] == 'Other') {
-      timeList = [];
-      break;
-    } else {
-      timeList.add(results[j]);
-    }
-  }
-
-  formattedResults.add(timeList);
-  formattedResults.add(results[results.length - 1]);
-
-  return formattedResults;
+return results;
 }
 
 
@@ -124,9 +111,16 @@ class _QuestionaireState extends State<Questionaire> {
                       var theStuff = extractResults(jsonResult);
                       print(theStuff);
 
-                      
+                      List<String> timeList = [];
 
-                      Navigator.pushNamed(context, '/');
+                      for (var i = 2; i < theStuff.length - 1; i++) {
+                        timeList.add(theStuff[i]);
+                      }
+
+                      var currentDetails =  
+                      PrescriptionDetails(theStuff[0], theStuff[1], timeList, theStuff[theStuff.length - 1]);
+
+                      
                     },
                     task: task,
                     showProgress: true,

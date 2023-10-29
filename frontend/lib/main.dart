@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'src/home/home_page.dart';
 import 'src/scan/scan_page.dart';
+import 'src/home/questionaire.dart';
 import 'src/settings/settings_page.dart';
 import 'package:provider/provider.dart';
 
+
 void main() {
   
-  runApp(
-     const MyApp(),
-      );
+  runApp( const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -28,7 +29,6 @@ class MyApp extends StatelessWidget {
     
   }
 }
-
 
 
 class MyHomePage extends StatefulWidget {
