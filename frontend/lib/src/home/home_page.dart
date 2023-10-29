@@ -19,6 +19,24 @@ State<HomePage> createState() => _HomePageState(); }
 class _HomePageState extends State<HomePage> {
 var presList = [];
 
+Future<String> _navigateAndDisplaySelection(BuildContext context) async {
+  // Navigator.push returns a Future that completes after calling
+  // Navigator.pop on the Selection Screen.
+  final result = await Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const Questionaire()),
+  );
+
+  // When a BuildContext is used from a StatefulWidget, the mounted property
+  // must be checked after an asynchronous gap.
+  //if (!mounted) return;
+
+  // After the Selection Screen returns a result, hide any previous snackbars
+  // and show the new result.
+  return '$result';
+}
+
+
   @override
   Widget build(BuildContext context) {
    
@@ -37,7 +55,7 @@ var presList = [];
         )),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
-               //add a new card
+               
             },
             tooltip: 'New',
             child: const Icon(Icons.add),

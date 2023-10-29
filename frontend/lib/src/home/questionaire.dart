@@ -13,6 +13,7 @@ class Questionaire extends StatefulWidget {
 
 class _QuestionaireState extends State<Questionaire> {
   
+  
   Future<Task> _getTask() {
     var nameStep = QuestionStep(
       stepIdentifier: StepIdentifier(),
@@ -87,6 +88,7 @@ class _QuestionaireState extends State<Questionaire> {
 return results;
 }
 
+ 
 
 
   @override
@@ -111,15 +113,9 @@ return results;
                       var theStuff = extractResults(jsonResult);
                       print(theStuff);
 
-                      List<String> timeList = [];
+                      
 
-                      for (var i = 2; i < theStuff.length - 1; i++) {
-                        timeList.add(theStuff[i]);
-                      }
-
-                      var currentDetails =  
-                      PrescriptionDetails(theStuff[0], theStuff[1], timeList, theStuff[theStuff.length - 1]);
-
+                     Navigator.pop(context, theStuff);
                       
                     },
                     task: task,
