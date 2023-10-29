@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'questionaire.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -7,12 +8,19 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Scaffold(
+      body: Center(
 
       child: Column(
       children: [PrescriptionCard(details: deets),
       PrescriptionCard(details: deets)]
-    ));
+    )),
+    floatingActionButton: FloatingActionButton(
+        onPressed: Placeholder();
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
 
@@ -39,6 +47,15 @@ class PrescriptionCard extends StatelessWidget {
     'Evening' : Icons.bedtime_rounded,
     'Bedtime' : Icons.airline_seat_individual_suite_rounded,
   };
+
+ Future<void> _navigateAndDisplaySelection(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final result = await Navigator.push(
+      context,
+      // Create the SelectionScreen in the next step.
+      MaterialPageRoute(builder: (context) => const Questionaire()),);}
+
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +113,9 @@ class PrescriptionCard extends StatelessWidget {
                 TextButton.icon(
                   icon: Icon(Icons.create_outlined),
                   label: const Text(''),
-                  onPressed: () {},
+                  onPressed: () {
+                    _navigateAndDisplaySelection(context);
+                  },
                 ),
                 // Add a text button labeled "EXPLORE" with transparent foreground color and an accent color for the text
                 TextButton.icon(
@@ -105,7 +124,9 @@ class PrescriptionCard extends StatelessWidget {
                     Icons.delete_rounded,
                   ),
                   label: const Text(''),
-                  onPressed: () {},
+                  onPressed: () {
+                    _navigateAndDisplaySelection(context);
+                  },
                 ),
               ],
             ),
