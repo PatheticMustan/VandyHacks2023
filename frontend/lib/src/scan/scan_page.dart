@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,9 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+import 'package:async/async.dart';
+import 'package:http/http.dart' as http;
 
 class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
@@ -60,6 +64,7 @@ class _ScanPageState extends State<ScanPage> {
     setState(() {
       if (success) {
         _imagePath = imagePath;
+        uploadImage(imagePath);
       }
     });
   }
@@ -86,8 +91,43 @@ class _ScanPageState extends State<ScanPage> {
     setState(() {
       if (success) {
         _imagePath = imagePath;
+        uploadImage(imagePath);
       }
     });
+  }
+
+  void uploadImage(String imagePath) async {
+    String uploadURL = "http://35.222.254.60:5000/upload";
+
+    File imageFile = File(imagePath);
+    Stream<List<int>> stream = http.ByteStream(imageFile.openRead());
+    stream.cast();
+    int length = await imageFile.length();
+
+    Uri uri = Uri.parse(uploadURL);
+
+    var request = http.MultipartRequest("POST", uri);
+    var multipartFile = http.MultipartFile('file', stream, length,
+        filename: basename(imageFile.path));
+    //contentType: new MediaType('image', 'png'));
+
+    request.files.add(multipartFile);
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+
+    if (response.statusCode == 200) {
+      final List parsed = json.decode(response.body);
+      // [dose_times, name, dosage, info]
+      List<bool> dose_times = List<bool>.from(parsed[0] as List);
+      String name = parsed[1];
+      String dosage = parsed[2];
+      String info = parsed[3];
+
+      // pretty print results
+      print("\'$name\' - $dosage ($info)");
+    } else {
+      print("error when processing prescription, ${response.statusCode}");
+    }
   }
 
   @override
@@ -124,12 +164,10 @@ class _ScanPageState extends State<ScanPage> {
               ),
             ),
             Visibility(
-              visible: _imagePath != null,
+              visible: (_imagePath != null),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.file(
-                  File(_imagePath ?? ''),
-                ),
+                child: Image.file(File(_imagePath ?? '')),
               ),
             ),
           ],
