@@ -108,14 +108,10 @@ return results;
                   return SurveyKit(
                     onResult: (SurveyResult result) {
                       var jsonResult = result.toJson();
-                      print(jsonResult);
 
-                      var theStuff = extractResults(jsonResult);
-                      print(theStuff);
+                      var usableResults = extractResults(jsonResult);
+                      print(usableResults);
 
-                      
-
-                     Navigator.pop(context, theStuff);
                       
                     },
                     task: task,
