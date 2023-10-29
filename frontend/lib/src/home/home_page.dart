@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'questionaire.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+   HomePage({super.key});
 
   var presList = [PrescriptionCard(details: PrescriptionDetails('help', 'this', ['Morning'], 'doesnt work'))];
 
