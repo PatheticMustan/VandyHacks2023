@@ -6,9 +6,12 @@ import 'package:edge_detection/edge_detection.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:rx_scan/main.dart';
+import 'package:rx_scan/src/home/app_state.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
@@ -19,6 +22,7 @@ class ScanPage extends StatefulWidget {
 
 class _ScanPageState extends State<ScanPage> {
   String? _imagePath;
+  late MyAppState appState;
 
   @override
   void initState() {
@@ -117,14 +121,15 @@ class _ScanPageState extends State<ScanPage> {
     if (response.statusCode == 200) {
       final List parsed = json.decode(response.body);
       // [dose_times, name, dosage, info]
-      List<bool> doseTimes = List<bool>.from(parsed[0] as List);
+      List<bool> d = List<bool>.from(parsed[0] as List);
+      List<String> times = d.map((v) => v.toString()).toList();
+
       String name = parsed[1];
       String dosage = parsed[2];
       String info = parsed[3];
 
       // pretty print results
-      print(doseTimes);
-      print("'$name' - $dosage ($info)");
+      appState.add(PrescriptionDetails(name, dosage, times, info));
     } else {
       print("error when processing prescription, ${response.statusCode}");
     }
@@ -132,6 +137,7 @@ class _ScanPageState extends State<ScanPage> {
 
   @override
   Widget build(BuildContext context) {
+    appState = context.watch<MyAppState>();
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
