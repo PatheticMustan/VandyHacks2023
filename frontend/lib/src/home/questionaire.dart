@@ -118,6 +118,8 @@ class _QuestionaireState extends State<Questionaire> {
                           .toList());
                       time = List<String>.from(t);
 
+                      print(name + dose + time.toString() + info);
+
                       appState.add(PrescriptionDetails(name, dose, time, info));
                       Navigator.of(context).popUntil((route) => route.isFirst);
                     },

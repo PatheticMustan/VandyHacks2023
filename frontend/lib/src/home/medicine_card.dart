@@ -24,6 +24,8 @@ class PrescriptionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      
+
         Container(
           padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Column(
@@ -34,11 +36,18 @@ class PrescriptionCard extends StatelessWidget {
                   style: TextStyle(fontSize: 24, color: Colors.grey[800]),
                 ),
                 Container(height: 10),
-                Text(
-                  "Take in ${details.time}",
-                  style: TextStyle(fontSize: 15, color: Colors.grey[700]),
+                  Row(
+                  children: [
+                    for(var e in details.time)...{
+                    Icon(timeIcons[e]),
+                    const SizedBox(width: 15),
+                    },
+                    
+                  ]
                 ),
                 Container(height: 10),
+              
+
                 Text(
                   details.info,
                   style: TextStyle(fontSize: 15, color: Colors.grey[700]),
@@ -49,11 +58,10 @@ class PrescriptionCard extends StatelessWidget {
                     icon: const Icon(Icons.create_outlined),
                     label: const Text(''),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Questionaire()));
-                    },
+                     appState.remove(details);
+                     Navigator.push(context, 
+                     MaterialPageRoute(builder: (context) => const Questionaire()));
+                       },
                   ),
                   TextButton.icon(
                       icon: const Icon(Icons.delete_rounded),
