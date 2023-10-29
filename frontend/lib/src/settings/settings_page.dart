@@ -11,7 +11,12 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(child: GoogleButton());
+    return const SafeArea(
+      child: Padding(
+        padding: EdgeInsets.all(30),
+        child: GoogleButton(),
+      ),
+    );
   }
 }
 
@@ -24,6 +29,7 @@ class GoogleButton extends StatefulWidget {
 
 class _GoogleButtonState extends State<GoogleButton> {
   Credentials? _credentials;
+  UserProfile? user;
 
   late Auth0 auth0;
 
@@ -36,29 +42,38 @@ class _GoogleButtonState extends State<GoogleButton> {
 
   @override
   Widget build(BuildContext context) {
-    if (_credentials == null) {
-      return Center(
-          child: ElevatedButton(
-              onPressed: () async {
-                final credentials =
-                    await auth0.webAuthentication(scheme: "demo").login();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        (() {
+          if (_credentials == null) {
+            return ElevatedButton(
+                onPressed: () async {
+                  final credentials =
+                      await auth0.webAuthentication(scheme: "demo").login();
 
-                setState(() {
-                  _credentials = credentials;
-                });
-              },
-              child: const Text("Log in")));
-    } else {
-      return Center(
-          child: ElevatedButton(
-              onPressed: () async {
-                await auth0.webAuthentication(scheme: "demo").logout();
+                  setState(() {
+                    _credentials = credentials;
+                    user = _credentials?.user;
+                  });
+                },
+                child: const Text("Google Login"));
+          } else {
+            return ElevatedButton(
+                onPressed: () async {
+                  await auth0.webAuthentication(scheme: "demo").logout();
 
-                setState(() {
-                  _credentials = null;
-                });
-              },
-              child: const Text("Log out")));
-    }
+                  setState(() {
+                    _credentials = null;
+                    user = null;
+                  });
+                },
+                child: const Text("Google Logout"));
+          }
+        }()),
+        if (user?.name != null) Text("Welcome, ${user!.name!}"),
+        if (user?.email != null) Text(user!.email!)
+      ],
+    );
   }
 }
